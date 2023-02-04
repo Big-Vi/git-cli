@@ -1,0 +1,15 @@
+[project]
+name = "git_cli"
+description = "CLI tool to interact with GIT"
+version = "0.1.0"
+authors = [
+    { name = "Vignesh Murugan", email = "vignesh.murugan@gmail.com" }
+]
+dependencies = []
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools", "wheel"]
+
+[project.scripts]
+git-cli = "git_cli.cli:main"
