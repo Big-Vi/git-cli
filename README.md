@@ -20,7 +20,4 @@ Open ``htmlcov/index.html`` in your browser to explore the report.
 `pip-compile-multi` -> to compile multiple requirements files to lock dependency version.
 
 TODO:
-Authenticate with Git
-Add Click
-Convert auth to class
 Fetch Repos, Followers, Following, Pinned Repos, Popular repo(based on Stars/Fork/Clone)

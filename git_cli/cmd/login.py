@@ -1,34 +1,18 @@
+import click
+from .utils import check_auth_status
 import requests
-import json
 import time
 import configparser
-import os
-import click
 import typing as t
 import webbrowser
+from git_cli.constants import CONFIG_FILE_PATH
 
-config_file_path = os.path.expanduser("~/.git-cli")
 config = configparser.ConfigParser()
-access_token: str
 
-
-@click.group()
-@click.pass_context
-def main(ctx: t.Any) -> None:
-    if check_auth_status(config_file_path):
-        config.read(config_file_path)
-        global access_token
-        access_token = config["DEFAULT"]["access_token"]
-    pass
-
-@main.group()
-@click.pass_context
-def auth(ctx: t.Any) -> None:
-    pass
-
-@auth.command()
+@click.command()
 def login() -> None:
-    if check_auth_status(config_file_path):
+    access_token: t.Union[str, bool] = check_auth_status()
+    if access_token:
         print("GitHub is already authenticated")
         return None
 
@@ -57,7 +41,7 @@ def login() -> None:
 
     def store_config(data: t.Dict[str, t.Any]) -> None:
         config["DEFAULT"] = {"access_token": data["access_token"]}
-        with open(config_file_path, "w") as configfile:
+        with open(CONFIG_FILE_PATH, "w") as configfile:
             config.write(configfile)
 
     def poll() -> None:
@@ -78,24 +62,3 @@ def login() -> None:
                 time.sleep(10)
 
     poll()
-
-
-@main.command()
-def user() -> None:
-    headers = {
-        "Authorization": f"Token {access_token}",
-        "Accept": "application/json"
-    }
-    response = requests.get("https://api.github.com/user", headers=headers)
-    print(response.json())
-
-
-def check_auth_status(file_path: str) -> bool:
-    if os.path.exists(file_path):
-        return True
-    else:
-        return False
-
-
-if __name__ == "__main__":
-    main()

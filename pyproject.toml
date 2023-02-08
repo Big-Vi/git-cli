@@ -12,7 +12,7 @@ build-backend = "setuptools.build_meta"
 requires = ["setuptools", "wheel"]
 
 [project.scripts]
-git-cli = "git_cli.cli:main"
+git-cli = "git_cli.main:cli"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -37,6 +37,7 @@ pretty = true
 strict = true
 local_partial_types = true
 warn_unreachable = true
+implicit_reexport = true
 
 [[tool.mypy.overrides]]
 module = []
