@@ -1,0 +1,12 @@
+-r typing.in
+-r tests.in
+-r build.in
+pyyaml
+tox
+virtualenv
+wheel
+requests
+click
+types-requests
+pip-compile-multi
+pre-commit

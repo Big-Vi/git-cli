@@ -13,3 +13,31 @@ requires = ["setuptools", "wheel"]
 
 [project.scripts]
 git-cli = "git_cli.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+branch = true
+source = ["tests"]
+
+[tool.coverage.paths]
+source = ["git_cli"]
+
+# [tool.setuptools]
+# include-package-data = false
+# py-modules = ["git_cli"]
+
+[tool.mypy]
+python_version = "3.7"
+files = ["git_cli"]
+show_error_codes = true
+pretty = true
+strict = true
+local_partial_types = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = []
+ignore_missing_imports = true
