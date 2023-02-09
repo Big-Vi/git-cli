@@ -1,11 +1,11 @@
 import click
-from .utils import check_auth_status
+from git_cli.utils import check_auth_status
 import requests
 import time
 import configparser
 import typing as t
 import webbrowser
-from git_cli.constants import CONFIG_FILE_PATH
+import git_cli.constants as constants
 
 config = configparser.ConfigParser()
 
@@ -16,9 +16,6 @@ def login() -> None:
         print("GitHub is already authenticated")
         return None
 
-    # Define the device code URL
-    verification_url = "https://github.com/login/device/code"
-
     # Define the parameters for the authorization URL
     verification_params = {
         "client_id": "41d4f6d801d4c40c9967",
@@ -27,7 +24,7 @@ def login() -> None:
     headers = {'Accept': 'application/json'}
 
     response = requests.post(
-        verification_url, headers=headers, data=verification_params)
+        constants.VERIFICATION_URL, headers=headers, data=verification_params)
 
     try:
         print("Enter this code in the browser " + response.json()["user_code"])
@@ -41,19 +38,18 @@ def login() -> None:
 
     def store_config(data: t.Dict[str, t.Any]) -> None:
         config["DEFAULT"] = {"access_token": data["access_token"]}
-        with open(CONFIG_FILE_PATH, "w") as configfile:
+        with open(constants.CONFIG_FILE_PATH, "w") as configfile:
             config.write(configfile)
 
     def poll() -> None:
         start_time = time.time()
-        access_token_url = "https://github.com/login/oauth/access_token"
         access_token_params = {"client_id": "41d4f6d801d4c40c9967", "device_code": response.json()[
             "device_code"], "grant_type": grant_type}
         access_token_headers = {'Accept': 'application/json'}
         while time.time() - start_time < 900:
             poll_response = requests.post(
-                access_token_url, headers=access_token_headers, data=access_token_params)
-            print(poll_response.json().get("access_token"))
+                constants.ACCESS_TOKEN_URL, headers=access_token_headers, data=access_token_params)
+            print(poll_response.json())
             if poll_response.json().get("error") != "authorization_pending" or poll_response.json().get("access_token") != None:
                 data = poll_response.json()
                 store_config(data)

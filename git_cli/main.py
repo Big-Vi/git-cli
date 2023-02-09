@@ -1,6 +1,6 @@
 import configparser
 import click
-from .cmd import login, user
+from .cmd import login, overview
 from .constants import CONFIG_FILE_PATH
 
 config = configparser.ConfigParser()
@@ -17,7 +17,7 @@ def cli() -> None:
 
 
 cli.add_command(login)
-cli.add_command(user)
+cli.add_command(overview)
 
 
 

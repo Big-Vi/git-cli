@@ -30,7 +30,7 @@ source = ["git_cli"]
 # py-modules = ["git_cli"]
 
 [tool.mypy]
-python_version = "3.7"
+python_version = "3.10"
 files = ["git_cli"]
 show_error_codes = true
 pretty = true
