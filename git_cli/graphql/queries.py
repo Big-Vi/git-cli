@@ -1,5 +1,5 @@
 repo_overview: str = """
-query getOverview{
+query getOverview($year: DateTime!){
   viewer {
     login
     followers {
@@ -11,14 +11,15 @@ query getOverview{
     starredRepositories {
       totalCount
     }
-    pinnedItems(first: 6) {
-      edges {
-        node {
-          ... on Repository {
-            id
-            name
-          }
-        }
+    pinnedItems {
+      totalCount
+    }
+    repositories {
+      totalCount
+    }
+    contributionsCollection(from: $year) {
+      contributionCalendar {
+        totalContributions
       }
     }
   }

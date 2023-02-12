@@ -18,7 +18,7 @@ def login() -> None:
 
     # Define the parameters for the authorization URL
     verification_params = {
-        "client_id": "41d4f6d801d4c40c9967",
+        "client_id": constants.CLIENT_ID,
         'scope': "read:org repo gist"
     }
     headers = {'Accept': 'application/json'}
@@ -28,11 +28,11 @@ def login() -> None:
 
     try:
         print("Enter this code in the browser " + response.json()["user_code"])
+        # Open the authorization URL in the default web browser
+        click.pause()
+        webbrowser.open(response.json()["verification_uri"])
     except Exception as e:
         print(e)
-
-    # Open the authorization URL in the default web browser
-    webbrowser.open(response.json()["verification_uri"])
 
     grant_type = "urn:ietf:params:oauth:grant-type:device_code"
 
@@ -49,7 +49,12 @@ def login() -> None:
         while time.time() - start_time < 900:
             poll_response = requests.post(
                 constants.ACCESS_TOKEN_URL, headers=access_token_headers, data=access_token_params)
-            print(poll_response.json())
+                
+            if(poll_response.json().get("error")):
+                print(poll_response.json().get("error"))
+            else:
+                print("Success")
+
             if poll_response.json().get("error") != "authorization_pending" or poll_response.json().get("access_token") != None:
                 data = poll_response.json()
                 store_config(data)
@@ -58,3 +63,5 @@ def login() -> None:
                 time.sleep(10)
 
     poll()
+
+    

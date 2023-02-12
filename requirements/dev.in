@@ -7,6 +7,7 @@ virtualenv
 wheel
 requests
 click
+tabulate
 types-requests
 pip-compile-multi
 pre-commit

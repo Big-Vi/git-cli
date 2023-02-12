@@ -1,11 +1,8 @@
 import configparser
 import click
 from .cmd import login, overview
-from .constants import CONFIG_FILE_PATH
 
 config = configparser.ConfigParser()
-
-access_token: str
 
 
 @click.group()

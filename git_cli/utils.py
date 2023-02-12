@@ -1,6 +1,5 @@
 import os
 import configparser
-import requests
 import typing as t
 
 import git_cli.constants as constants
