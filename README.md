@@ -25,6 +25,10 @@ Open ``htmlcov/index.html`` in your browser to explore the report.
 -   The app continuously polls this URL(`https://github.com/login/oauth/access_token`) to get an access token once the user authorized the device. An access token gets stored in `.git-cli` config file on your computer.
 -   The app uses this access token to query(GraphQL) your GitHub repository.
 
+## Usage
+
+Run `git-cli --help` for available commands.  
+
 
 ## TODO:
 
